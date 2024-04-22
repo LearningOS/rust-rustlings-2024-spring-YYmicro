@@ -14,6 +14,16 @@ struct ColorClassicStruct {
     blue: i32,
 }
 
+impl ColorClassicStruct{
+    fn new(red:i32, green:i32, blue:i32) -> ColorClassicStruct{
+        Self{
+            red,
+            green,
+            blue,
+        }
+    }
+}
+
 struct ColorTupleStruct(/* TODO: Something goes here */i32, i32, i32);
 
 #[derive(Debug)]
@@ -26,11 +36,7 @@ mod tests {
     #[test]
     fn classic_c_structs() {
         // TODO: Instantiate a classic c struct!
-        let green = ColorClassicStruct{
-            red: 0,
-            green: 255,
-            blue: 0,
-        };
+        let green = ColorClassicStruct::new(0, 255, 0);
 
         assert_eq!(green.red, 0);
         assert_eq!(green.green, 255);
