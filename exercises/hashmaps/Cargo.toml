@@ -1,0 +1,6 @@
+[package]
+name = "rustlings"
+description = "Small exercises to get you used to reading and writing Rust code!"
+edition = "2021"
+
+[dependencies]
