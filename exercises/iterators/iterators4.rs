@@ -15,6 +15,9 @@ pub fn factorial(num: u64) -> u64 {
     // For an extra challenge, don't use:
     // - recursion
     // Execute `rustlings hint iterators4` for hints.
+    let chen: Vec<u64> = (1..=num).collect();
+    let re  = chen.iter().fold(1, |acc, x| acc*x);
+    re
 }
 
 #[cfg(test)]
