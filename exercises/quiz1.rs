@@ -17,7 +17,12 @@
 
 // Put your function here!
 // fn calculate_price_of_apples {
-
+fn calculate_price_of_apples(number: usize) -> usize{
+    match number {
+        0..=40 => number*2,
+        _ => number,
+    }
+}
 // Don't modify this function!
 #[test]
 fn verify_test() {
