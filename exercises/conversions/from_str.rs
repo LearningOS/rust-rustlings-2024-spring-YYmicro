@@ -9,6 +9,7 @@
 // Execute `rustlings hint from_str` or use the `hint` watch subcommand for a
 // hint.
 
+use core::prelude::v1;
 use std::num::ParseIntError;
 use std::str::FromStr;
 
@@ -52,6 +53,33 @@ enum ParsePersonError {
 impl FromStr for Person {
     type Err = ParsePersonError;
     fn from_str(s: &str) -> Result<Person, Self::Err> {
+        if s.is_empty() {
+            return Err(ParsePersonError::Empty);
+        }
+        //2 
+        let v: Vec<&str> = s.split(',').collect();
+        // 3
+        if v.len()!=2 {
+            return Err(ParsePersonError::BadLen);
+        }
+        //4
+        let name = v[0].to_string();
+        if name.is_empty() {
+            return Err(ParsePersonError::NoName);
+        }
+        //5 
+        let age = v[1].parse::<usize>();
+        match age {
+            Ok(age) => {
+                Ok(Person{
+                    name: name,
+                    age: age,
+                })
+            }
+            Err(ParseIntError) => {
+                Err(ParsePersonError::ParseInt(ParseIntError))
+            }
+        }
     }
 }
 
