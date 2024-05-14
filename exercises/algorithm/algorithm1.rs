@@ -7,6 +7,7 @@
 use std::fmt::{self, Display, Formatter};
 use std::ptr::NonNull;
 use std::vec::*;
+use std::cmp::PartialOrd;
 
 #[derive(Debug)]
 struct Node<T> {
@@ -35,7 +36,8 @@ impl<T> Default for LinkedList<T> {
     }
 }
 
-impl<T> LinkedList<T> {
+impl<T> LinkedList<T>
+{
     pub fn new() -> Self {
         Self {
             length: 0,
@@ -70,13 +72,38 @@ impl<T> LinkedList<T> {
         }
     }
 	pub fn merge(list_a:LinkedList<T>,list_b:LinkedList<T>) -> Self
+    where 
+        T: PartialOrd+PartialEq+Clone,
 	{
-		//TODO
-		Self {
-            length: 0,
-            start: None,
-            end: None,
+        let mut list_str: LinkedList<T> = LinkedList::<T>::new();
+        let len: u32 = list_a.length + list_b.length;
+        let mut node_a: Option<NonNull<Node<T>>> = list_a.start;
+        let mut node_b: Option<NonNull<Node<T>>> = list_b.start;
+        while let (Some(node_a_inner), Some(node_b_inner)) = (node_a, node_b){
+            unsafe {
+                if (*node_a_inner.as_ptr()).val < (*node_b_inner.as_ptr()).val {
+                    list_str.add((*node_a_inner.as_ptr()).val.clone());
+                    node_a = (*node_a_inner.as_ptr()).next;
+                }
+                else {
+                    list_str.add((*node_b_inner.as_ptr()).val.clone());
+                    node_b = (*node_b_inner.as_ptr()).next;
+                }
+            }
         }
+        while let Some(node_a_inner) = node_a {
+            unsafe {
+                list_str.add((*node_a_inner.as_ptr()).val.clone());
+                node_a = (*node_a_inner.as_ptr()).next;
+            }
+        }
+        while let Some(node_b_inner) = node_b {
+            unsafe {
+                list_str.add((*node_b_inner.as_ptr()).val.clone());
+                node_b = (*node_b_inner.as_ptr()).next;
+            }
+        }
+        list_str
 	}
 }
 
