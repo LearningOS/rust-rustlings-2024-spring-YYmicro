@@ -72,8 +72,26 @@ impl<T> LinkedList<T> {
             },
         }
     }
-	pub fn reverse(&mut self){
+	pub fn reverse(&mut self)
+    where
+        T: Clone,
+    {
 		// TODO
+        if self.length>1 {
+            let mut tmp = LinkedList::<T>::new();
+
+            
+            unsafe{
+                tmp.start = (*(self.start.unwrap()).as_ptr()).next;
+                tmp.end = (*(self.end.unwrap()).as_ptr()).prev;
+                tmp.length = self.length-2;
+                let mut _num = (*(self.start.unwrap()).as_ptr()).val.clone();
+                (*(self.start.unwrap()).as_ptr()).val = (*(self.end.unwrap()).as_ptr()).val.clone();
+                (*(self.end.unwrap()).as_ptr()).val = _num;
+            }
+            tmp.reverse();
+        }
+
 	}
 }
 
