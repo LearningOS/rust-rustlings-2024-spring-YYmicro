@@ -7,18 +7,25 @@
 use std::cmp::PartialOrd;
 fn sort<T>(array: &mut [T])
 where
-    T: PartialOrd+Clone,
+    T: PartialOrd,
 {
 	//TODO
-    for i in 0..array.len()-1 {
-        for j in 0..array.len()-i-1 {
-            if array[j] > array[j+1] {
-                let tmp = array[j].clone();
-                array[j] = array[j+1].clone();
-                array[j+1] = tmp;
-            }
-        }
+    if array.len()<2{
+        return;
     }
+    let (mut i, mut j) = (0, array.len()-1);
+    while i<j {
+        while i<j && array[j]>=array[0]{
+            j-=1;
+        }
+        while i<j && array[i]<=array[0]{
+            i+=1;
+        }
+        array.swap(i,j);
+    }
+    array.swap(0,i);
+    sort(&mut array[..i]);
+    sort(&mut array[i+1..]);
 }
 #[cfg(test)]
 mod tests {
