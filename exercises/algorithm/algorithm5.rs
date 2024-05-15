@@ -31,6 +31,22 @@ impl Graph {
 		//TODO
 
         let mut visit_order = vec![];
+        let mut visited = vec![false;self.adj.len()];
+        let mut queue: VecDeque<usize> = VecDeque::new();
+
+        queue.push_back(start);
+        visited[start]=true;
+        visit_order.push(start);
+        while !queue.is_empty() {
+            let vertex = queue.pop_front().unwrap();
+            for i in &self.adj[vertex] {
+                if !visited[*i]{
+                    visited[*i]=true;
+                    queue.push_back(*i);
+                    visit_order.push(*i);
+                }
+            }
+        }
         visit_order
     }
 }
